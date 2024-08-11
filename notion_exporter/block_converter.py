@@ -151,7 +151,7 @@ class BlockConverter:
         the page title.
         """
         text = richtext_convertor(block["heading_1"]["rich_text"])
-        return f"## {text}"
+        return f"\n## {text}"
 
     @staticmethod
     def heading_2(block: dict) -> str:
@@ -160,7 +160,7 @@ class BlockConverter:
         the page title.
         """
         text = richtext_convertor(block["heading_2"]["rich_text"])
-        return f"### {text}"
+        return f"\n### {text}"
 
     @staticmethod
     def heading_3(block: dict) -> str:
@@ -169,7 +169,7 @@ class BlockConverter:
         the page title.
         """
         text = richtext_convertor(block["heading_3"]["rich_text"])
-        return f"#### {text}"
+        return f"\n#### {text}"
 
     def image(self, block: dict) -> str:
         """
@@ -208,7 +208,7 @@ class BlockConverter:
         """
         Converts a paragraph block to a Markdown paragraph.
         """
-        text = richtext_convertor(block["paragraph"]["rich_text"])
+        text = f"\n{richtext_convertor(block["paragraph"]["rich_text"])}"
         return text
 
     def pdf(self, block: dict) -> str:
@@ -229,7 +229,7 @@ class BlockConverter:
         """
         text = richtext_convertor(block["quote"]["rich_text"])
 
-        return f"> {text}"
+        return f"\n> {text}"
 
     @staticmethod
     def table_row(block: dict) -> str:
