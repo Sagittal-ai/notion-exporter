@@ -1,6 +1,7 @@
 from typing import Optional
 import asyncio
 import logging
+import re
 
 from notion_client import AsyncClient as NotionClient, APIResponseError
 from notion_client import Client
@@ -67,9 +68,9 @@ class NotionExporter:
         if database_ids is None:
             database_ids = set()
 
-        page_ids = set(map(self._normalize_id, page_ids))
-        database_ids = set(map(self._normalize_id, database_ids))
-        ids_to_exclude = set(map(self._normalize_id, ids_to_exclude))
+        page_ids = set(map(self.normalize_id, page_ids))
+        database_ids = set(map(self.normalize_id, database_ids))
+        ids_to_exclude = set(map(self.normalize_id, ids_to_exclude))
 
         page_ids = page_ids - ids_to_exclude
         database_ids = database_ids - ids_to_exclude
@@ -454,28 +455,12 @@ class NotionExporter:
         return table_row_blocks
 
     @staticmethod
-    def _normalize_id(notion_id: str) -> str:
+    def normalize_id(notion_id: str) -> str:
         # Add dashes to notion id if missing
-        if len(notion_id) == 32:
-            return (
-                notion_id[:8]
-                + "-"
-                + notion_id[8:12]
-                + "-"
-                + notion_id[12:16]
-                + "-"
-                + notion_id[16:20]
-                + "-"
-                + notion_id[20:]
-            )
-
-        elif (
-            len(notion_id) != 36
-            and notion_id[8] != "-"
-            and notion_id[13] != "-"
-            and notion_id[18] != "-"
-            and notion_id[23] != "-"
-        ):
-            logger.warning("Notion ID is not in the expected format. ID: %s", notion_id)
+        if re.match(r"^[a-f0-9]{32}$", notion_id):
+            return f"{notion_id[:8]}-{notion_id[8:12]}-{notion_id[12:16]}-{notion_id[16:20]}-{notion_id[20:]}"
+                
+        if not re.match(r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$", notion_id):
+            logger.warning(f"Unable to normalize notion id {notion_id}")
 
         return notion_id
