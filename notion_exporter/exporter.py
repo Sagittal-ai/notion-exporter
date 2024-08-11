@@ -106,12 +106,12 @@ class NotionExporter:
                 logger.info(f"Fetching page {page_id}.")
             page_meta_tasks = [self._get_page_meta(page_id) for page_id in page_ids]
             page_content_tasks = [self._get_block_content(page_id) for page_id in page_ids]
-            page_details_results = await asyncio.gather(*page_meta_tasks)
+            page_meta_results = await asyncio.gather(*page_meta_tasks)
             page_content_results = await asyncio.gather(*page_content_tasks)
-            ids_to_exclude.update(page["page_id"] for page in page_details_results)
+            ids_to_exclude.update(page["page_id"] for page in page_meta_results)
 
             for page_details, (markdown, child_page_ids, child_database_ids) in zip(
-                page_details_results, page_content_results
+                page_meta_results, page_content_results
             ):
                 if (
                     self.exclude_title_containing
