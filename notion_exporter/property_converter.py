@@ -1,4 +1,3 @@
-import asyncio
 from typing import TYPE_CHECKING
 
 from notion2md.convertor.richtext import richtext_convertor

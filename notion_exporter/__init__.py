@@ -1,1 +1,1 @@
-from notion_exporter.exporter import NotionExporter
+from notion_exporter.exporter import NotionExporter as NotionExporter
