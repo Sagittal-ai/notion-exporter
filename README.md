@@ -44,3 +44,4 @@ The `NotionExporter.export_pages` method takes the following arguments:
                   will be exported as well.
 - `ids_to_exclude`: A list of page ids to exclude when recursively exporting child pages. If an excluded page is
                     encountered, its child pages will not be exported either.
+- `exclude_front_matter`: An optional parameter to export only the body of pages, without title or metadata. Defaults to False.
