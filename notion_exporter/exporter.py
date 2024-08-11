@@ -48,6 +48,7 @@ class NotionExporter:
         page_ids: Optional[list[str]] = None,
         database_ids: Optional[list[str]] = None,
         ids_to_exclude: Optional[list[str]] = None,
+        exclude_front_matter: bool = False,
     ) -> dict[str, str]:
         """
         Export pages and databases to markdown files.
@@ -73,7 +74,7 @@ class NotionExporter:
         page_ids = page_ids - ids_to_exclude
         database_ids = database_ids - ids_to_exclude
         extracted_pages, _, _ = asyncio.run(
-            self._async_export_pages(page_ids=page_ids, database_ids=database_ids, ids_to_exclude=ids_to_exclude)
+            self._async_export_pages(page_ids=page_ids, database_ids=database_ids, ids_to_exclude=ids_to_exclude, exclude_front_matter=exclude_front_matter)
         )
 
         return extracted_pages
@@ -85,6 +86,7 @@ class NotionExporter:
         ids_to_exclude: Optional[set] = None,
         parent_page_ids: Optional[dict] = None,
         page_paths: Optional[dict] = None,
+        exclude_front_matter: bool = False,
     ):
         if ids_to_exclude is None:
             ids_to_exclude = set()
@@ -124,7 +126,7 @@ class NotionExporter:
                     parent_page_ids[child_database_id] = page_details["page_id"]
                 front_matter = self._get_page_front_matter(page_details, page_paths, parent_page_ids=parent_page_ids)
                 markdown = "\n".join(markdown)
-                extracted_pages[page_details["page_id"]] = f"{front_matter}\n{markdown}"
+                extracted_pages[page_details["page_id"]] = markdown if exclude_front_matter else f"{front_matter}\n{markdown}"
                 child_pages.update(child_page_ids)
                 child_databases.update(child_database_ids)
 
@@ -146,7 +148,7 @@ class NotionExporter:
                 for entry_id in entry_ids:
                     parent_page_ids[entry_id] = db_details["page_id"]
                 front_matter = self._get_page_front_matter(db_details, page_paths, parent_page_ids)
-                extracted_pages[db_details["page_id"]] = f"{front_matter}\n{markdown}"
+                extracted_pages[db_details["page_id"]] = markdown if exclude_front_matter else f"{front_matter}\n{markdown}"
                 child_pages.update(entry_ids)
 
         if self.export_child_pages and (child_pages or child_databases):
