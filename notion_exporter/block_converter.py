@@ -52,9 +52,9 @@ class BlockConverter:
         if block_type in self.type_specific_converters:
             indentation = "\t" * indent_level if indent else ""
             if block_type == "numbered_list_item":
-                return indentation + self.numbered_list_item(block, indent_level)
+                return f"\n{indentation}{self.numbered_list_item(block, indent_level)}"
             else:
-                return indentation + self.type_specific_converters[block_type](block)
+                return f"\n{indentation}{self.type_specific_converters[block_type](block)}"
         else:
             return ""
 
