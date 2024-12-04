@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from notion2md_richtext import richtext_convertor
+from notion_exporter.notion2md_richtext import richtext_convertor
 
 if TYPE_CHECKING:
     from notion_exporter.exporter import NotionExporter
