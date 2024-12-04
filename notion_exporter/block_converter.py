@@ -2,7 +2,7 @@ import os
 from urllib.parse import urlparse
 from collections import defaultdict
 
-from notion2md.convertor.richtext import richtext_convertor
+from notion2md_richtext import richtext_convertor
 
 
 class BlockConverter:

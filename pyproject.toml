@@ -24,8 +24,7 @@ keywords = [
 ]
 dependencies = [
     "notion-client",
-    "tenacity",
-    "notion2md",
+    "tenacity"
 ]
 
 [project.urls]
