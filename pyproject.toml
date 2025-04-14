@@ -50,3 +50,7 @@ packages = [
 
 [tool.black]
 line-length = 120
+
+[[tool.uv.index]]
+name = "Neopallium"
+url = "https://pkgs.dev.azure.com/Sagittal/Neopallium/_packaging/Neopallium/pypi/simple/"

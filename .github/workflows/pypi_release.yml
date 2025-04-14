@@ -10,18 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install Hatch
-        run: pip install hatch
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: Build package
-        run: hatch build
-
-      - name: Publish on PyPi
+      - name: Install dependencies
         env:
-          HATCH_INDEX_USER: __token__
-          HATCH_INDEX_AUTH: ${{ secrets.AZURE_DEVOPS_PAT }}
-          HATCH_INDEX_REPO: https://pkgs.dev.azure.com/Sagittal/Neopallium/_packaging/Neopallium/pypi/legacy
-        run: hatch publish -y
+          UV_INDEX_NEOPALLIUM_PASSWORD: ${{ secrets.AZURE_DEVOPS_PAT }}
+        run: |
+          pip install uv
+          uv venv
+          uv sync
+          uv publish
