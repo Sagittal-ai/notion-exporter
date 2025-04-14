@@ -1,4 +1,4 @@
-name: Project release on PyPi
+name: Project release
 
 on:
   push:
@@ -23,5 +23,5 @@ jobs:
         run: |
           pip install uv
           uv venv
-          uv sync
+          uv build
           uv publish
