@@ -46,6 +46,6 @@ line-length = 120
 
 [[tool.uv.index]]
 name = "Neopallium"
-url = "https://pkgs.dev.azure.com/Sagittal/Neopallium/_packaging/Neopallium/pypi/simple/"
-publish-url = "https://pkgs.dev.azure.com/Sagittal/Neopallium/_packaging/Neopallium/pypi/upload/"
+url = "https://pkgs.dev.azure.com/Sagittal/Neopallium/_packaging/Sagittal/pypi/simple/"
+publish-url = "https://pkgs.dev.azure.com/Sagittal/Neopallium/_packaging/Sagittal/pypi/upload/"
 explicit = true
