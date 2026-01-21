@@ -6,7 +6,7 @@ on:
       - "v[0-9].[0-9]+.[0-9]+*"
 
 jobs:
-  release-on-pypi:
+  release:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,4 +24,4 @@ jobs:
           pip install uv
           uv venv
           uv build
-          uv publish
+          uv publish --index Neopallium
