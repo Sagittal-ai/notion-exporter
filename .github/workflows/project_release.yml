@@ -24,4 +24,4 @@ jobs:
           pip install uv
           uv venv
           uv build
-          uv publish --index Neopallium
+          uv publish --index Neopallium -u __token__ -p $UV_INDEX_NEOPALLIUM_PASSWORD
