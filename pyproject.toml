@@ -1,6 +1,6 @@
 [project]
 name = "notion-exporter"
-version = "0.1.2"
+version = "0.2.1"
 
 description = "Tool that allows you to export your Notion pages to markdown files."
 readme = "README.md"
@@ -17,7 +17,9 @@ keywords = [
 ]
 dependencies = [
     "notion-client",
-    "tenacity"
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.24.0",
+    "tenacity",
 ]
 
 [project.urls]

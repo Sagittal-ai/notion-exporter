@@ -305,7 +305,7 @@ class NotionExporter:
         # Also, we extract all properties from the database entry to be able to add them to the markdown page as
         # key-value pairs
         properties = {}
-        if page_object["parent"]["type"] == "database_id":
+        if "database_id" in page_object["parent"]:
             title = ""
             for prop_name, prop in page_object["properties"].items():
                 if prop["type"] == "title":
@@ -319,6 +319,13 @@ class NotionExporter:
                 else ""
             )
 
+        # Extract parent_id - try database_id first, then fall back to using type as key
+        parent_id = page_object["parent"].get("database_id")
+        if parent_id is None:
+            parent_type = page_object["parent"].get("type")
+            if parent_type:
+                parent_id = page_object["parent"].get(parent_type)
+
         page_meta = {
             "title": title,
             "url": page_object["url"],
@@ -326,7 +333,7 @@ class NotionExporter:
             "last_edited_by": last_edited_by,
             "last_edited_time": page_object["last_edited_time"],
             "page_id": page_object["id"],
-            "parent_id": page_object["parent"][page_object["parent"]["type"]],
+            "parent_id": parent_id,
         }
         if properties:
             page_meta["properties"] = properties
@@ -349,6 +356,13 @@ class NotionExporter:
                 self._get_user(database_object["last_edited_by"]["id"]),
             )
 
+            # Extract parent_id - try database_id first, then fall back to using type as key
+            parent_id = database_object["parent"].get("database_id")
+            if parent_id is None:
+                parent_type = database_object["parent"].get("type")
+                if parent_type:
+                    parent_id = database_object["parent"].get(parent_type)
+
             database_meta = {
                 "title": database_object["title"][0]["plain_text"] if database_object["title"] else "Untitled",
                 "url": database_object["url"],
@@ -356,7 +370,7 @@ class NotionExporter:
                 "last_edited_by": last_edited_by,
                 "last_edited_time": database_object["last_edited_time"],
                 "page_id": database_object["id"],
-                "parent_id": database_object["parent"][database_object["parent"]["type"]],
+                "parent_id": parent_id,
             }
         except APIResponseError as exc:
             # Database is not available via API, might be a linked database
