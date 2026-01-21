@@ -18,10 +18,8 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        env:
-          UV_INDEX_NEOPALLIUM_PASSWORD: ${{ secrets.AZURE_DEVOPS_PAT }}
         run: |
           pip install uv
           uv venv
           uv build
-          uv publish --index Neopallium -u __token__ -p $UV_INDEX_NEOPALLIUM_PASSWORD
+          uv publish --index Neopallium -u __token__ -p ${{ secrets.AZURE_DEVOPS_PAT }}
